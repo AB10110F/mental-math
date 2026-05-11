@@ -1,28 +1,44 @@
-import { HTMLProps } from "react";
+import { HTMLProps, useState } from "react";
 
 type SettingsIslandProps = {
+  id: string,
   label?: React.ReactElement,
   separator?: React.ReactElement;
   options: [string, string, string, string]
+  onClick: (id: string, selection: string) => void;
 }
 export default function SettingsIsland({
+  id,
   label,
   separator,
-  options
+  options,
+  onClick
 }: SettingsIslandProps) {
 
-  const textStyle: HTMLProps<HTMLElement>["className"] = "cursor-pointer text-neutral-500 hover:text-neutral-100";
+  const [selected, setSelected] = useState(options[0]);
+  const labelStyle: HTMLProps<HTMLElement>["className"] = "cursor-pointer text-neutral-500 hover:text-neutral-50 peer-checked:text-neutral-50";
 
   return (
-    <section className="flex w-full justify-between py-2 px-4 gap-10">
-      <article className="flex w-full justify-evenly bg-neutral-900 rounded-lg py-2">
+    <section className="flex select-none w-full justify-between py-2 px-4 gap-10">
+      <ul className="flex w-full justify-evenly bg-neutral-900 rounded-lg py-2">
         {label}
         {separator}
-        <span className={textStyle}>{options[0]}</span>
-        <span className={textStyle}>{options[1]}</span>
-        <span className={textStyle}>{options[2]}</span>
-        <span className={textStyle}>{options[3]}</span>
-      </article>
+        {options.map((option, index) => (
+          <li key={index}>
+            <input
+              type="radio"
+              key={index}
+              name={id}
+              id={`${id}-${index}`}
+              onChange={() => setSelected(option)}
+              onClick={() => onClick(id, option)}
+              checked={selected === option}
+              className="peer hidden"
+            />
+            <label htmlFor={`${id}-${index}`} className={labelStyle}>{option}</label>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
