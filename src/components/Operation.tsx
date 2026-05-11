@@ -1,10 +1,10 @@
 import { useRef } from "react";
 
 type OperationProps = {
-  onCorrect: (time: number, result: number) => void;
+  onCorrect: (time: number, a: number, b: number, result: number) => void;
   digits1: number,
   digits2: number,
-  sign: "+" | "-" | "×" | "÷"
+  sign: string
 }
 
 function randomize(digits: number) {
@@ -18,7 +18,7 @@ function getResult(a: number, b: number, sign: string) {
     case '+': return a + b;
     case '-': return a - b;
     case '×': return a * b;
-    case '÷': return a / b;
+    case '÷': return a / b; //FIX: allow only operations whose results are whole numbers
   }
 }
 
@@ -40,13 +40,13 @@ export default function Operation({
     const time = (endTime - startTime) / 1000;
 
     if (parseInt(value) === result) {
-      onCorrect(time, result);
+      onCorrect(time, a, b, result);
     }
   };
 
   const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     const input = e.currentTarget;
-    input.value = input.value.replace(/\D/g, '');
+    input.value = input.value.replace(/[^\d-]/g, '');
   };
 
   return (
