@@ -20,7 +20,6 @@ function Home() {
 
   //TODO: Support advanced operations
   //TODO: Add option to change the display of the operation
-  //TODO: Reveal answer option
   const [started, setStarted] = useState(false);
   const [operationId, setOperationId] = useState(0);
   const [timerId, setTimerId] = useState(20); //NOTE: timerId cannot be equal to operationId
@@ -30,7 +29,7 @@ function Home() {
   const [sign, setSign] = useState('+');
   const [sequence, setSequence] = useState('5');
 
-  const [results, setResults] = useState<results[]>([]); //TODO: make a type of this
+  const [results, setResults] = useState<results[]>([]);
   const [resume, setResume] = useState<results[]>([]);
 
   function toggleState() {
@@ -62,6 +61,7 @@ function Home() {
     }
   };
 
+  //NOTE: make dynamic labels for settingsIsland
   return (
     <main className="flex flex-1 w-full flex-col items-center py-5 px-16 bg-white dark:bg-neutral-800">
       <section className="flex flex-col w-full justify-between py-2 px-4 gap-10 lg:flex-row">
@@ -70,6 +70,7 @@ function Home() {
           label={<span>Digits</span>}
           separator={<span className="w-0.5 h-full border-0 bg-gray-300" />}
           options={["1", "2", "3", "4"]}
+          currentSign={sign}
           onClick={setSettings}
         />
         <SettingsIsland
@@ -97,7 +98,7 @@ function Home() {
           <>
             {operationId > parseInt(sequence, 10) - 1 ? (toggleState()) : (
               <>
-                <Operation key={operationId} onCorrect={changeId} digits1={parseInt(digitsA, 10)} digits2={parseInt(digitsB, 10)} sign={sign} />
+                <Operation key={operationId} onCorrect={changeId} digitsA={parseInt(digitsA, 10)} digitsB={parseInt(digitsB, 10)} sign={sign} />
                 <Timer key={timerId} />
                 <Button onClick={toggleState} text="Stop" color="bg-red-500 hover:bg-red-700" />
               </>

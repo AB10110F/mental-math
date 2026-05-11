@@ -2,8 +2,8 @@ import { useRef } from "react";
 
 type OperationProps = {
   onCorrect: (time: number, a: number, b: number, result: number) => void;
-  digits1: number,
-  digits2: number,
+  digitsA: number,
+  digitsB: number,
   sign: string
 }
 
@@ -13,23 +13,31 @@ function randomize(digits: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function handleDivisions(divisor: number) {
+  const mult = Math.floor(Math.random() * 10) + 1;
+  const dividend = divisor * mult;
+  return dividend;
+}
+
 function getResult(a: number, b: number, sign: string) {
   switch (sign) {
     case '+': return a + b;
     case '-': return a - b;
     case '×': return a * b;
-    case '÷': return a / b; //FIX: allow only operations whose results are whole numbers
+    case '÷': return a / b;
   }
 }
 
 export default function Operation({
   onCorrect,
-  digits1,
-  digits2,
+  digitsA,
+  digitsB,
   sign }: OperationProps) {
 
-  const a = randomize(digits1)
-  const b = randomize(digits2)
+  let a: number;
+  let b: number;
+  b = randomize(digitsB);
+  a = sign === '÷' ? handleDivisions(b) : randomize(digitsA);
   const startTime = Date.now();
   const inputRef = useRef<HTMLInputElement>(null);
   const result = getResult(a, b, sign);

@@ -5,6 +5,7 @@ type SettingsIslandProps = {
   label?: React.ReactElement,
   separator?: React.ReactElement;
   options: [string, string, string, string]
+  currentSign?: string,
   onClick: (id: string, selection: string) => void;
 }
 export default function SettingsIsland({
@@ -12,11 +13,12 @@ export default function SettingsIsland({
   label,
   separator,
   options,
+  currentSign,
   onClick
 }: SettingsIslandProps) {
 
   const [selected, setSelected] = useState(options[0]);
-  const labelStyle: HTMLProps<HTMLElement>["className"] = "cursor-pointer text-neutral-500 hover:text-neutral-50 peer-checked:text-neutral-50";
+  const labelStyle: HTMLProps<HTMLElement>["className"] = "cursor-pointer text-neutral-500 hover:text-neutral-50 peer-checked:text-neutral-50 peer-disabled:text-neutral-500 peer-disabled:hover:text-neutral-500 peer-disabled:cursor-not-allowed";
 
   return (
     <section className="flex select-none w-full justify-between py-2 px-4 gap-10">
@@ -33,6 +35,7 @@ export default function SettingsIsland({
               onChange={() => setSelected(option)}
               onClick={() => onClick(id, option)}
               checked={selected === option}
+              disabled={id === "digitsA" && currentSign === '÷'}
               className="peer hidden"
             />
             <label htmlFor={`${id}-${index}`} className={labelStyle}>{option}</label>
