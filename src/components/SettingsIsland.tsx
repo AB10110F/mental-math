@@ -6,6 +6,7 @@ type SettingsIslandProps = {
   separator?: React.ReactElement;
   options: [string, string, string, string]
   currentSign?: string,
+  digitsA?: number,
   onClick: (id: string, selection: string) => void;
 }
 export default function SettingsIsland({
@@ -14,6 +15,7 @@ export default function SettingsIsland({
   separator,
   options,
   currentSign,
+  digitsA,
   onClick
 }: SettingsIslandProps) {
 
@@ -35,7 +37,7 @@ export default function SettingsIsland({
               onChange={() => setSelected(option)}
               onClick={() => onClick(id, option)}
               checked={selected === option}
-              disabled={id === "digitsA" && currentSign === '÷'}
+              disabled={(id === "digitsA" && currentSign === '÷') || (id === "digitsB" && currentSign === '-' && parseInt(option) > (digitsA ?? 1))} //NOTE: fallback required due to possibly undefined behavior, probably because digitsA is used in an arithmetic comparison
               className="peer hidden"
             />
             <label htmlFor={`${id}-${index}`} className={labelStyle}>{option}</label>

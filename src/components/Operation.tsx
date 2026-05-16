@@ -38,6 +38,8 @@ export default function Operation({
   let b: number;
   b = randomize(digitsB);
   a = sign === '÷' ? handleDivisions(b) : randomize(digitsA);
+  if (sign === '-' && b > a) [a, b] = [b, a]; //NOTE: destructuring assignment
+
   const startTime = Date.now();
   const inputRef = useRef<HTMLInputElement>(null);
   const result = getResult(a, b, sign);
@@ -52,7 +54,7 @@ export default function Operation({
     }
   };
 
-  const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleInput = (e: React.FormEvent<HTMLInputElement>) => { //TODO: FormEvent deprecated
     const input = e.currentTarget;
     input.value = input.value.replace(/[^\d-]/g, '');
   };

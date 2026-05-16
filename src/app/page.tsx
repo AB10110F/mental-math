@@ -83,6 +83,8 @@ function Home() {
           label={<span>Digits</span>}
           separator={<span className="w-0.5 h-full border-0 bg-gray-300" />}
           options={["1", "2", "3", "4"]}
+          currentSign={sign}
+          digitsA={parseInt(digitsA)}
           onClick={setSettings}
         />
         <SettingsIsland
