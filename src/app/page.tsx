@@ -6,7 +6,7 @@ import Button from '@/components/Button';
 import Timer from '@/components/timer';
 import Resume from '@/components/Resume';
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type results = {
   time: number,
@@ -16,8 +16,8 @@ type results = {
   result: number
 }
 
-const audio = new Audio('/sounds/pickupCoin.mp3');
-audio.preload = 'auto';
+// const audio = new Audio('/sounds/pickupCoin.mp3');
+// audio.preload = 'auto';
 
 function Home() {
 
@@ -34,6 +34,11 @@ function Home() {
 
   const [results, setResults] = useState<results[]>([]);
   const [resume, setResume] = useState<results[]>([]);
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  useEffect(() => {
+    audioRef.current = new Audio('/sounds/pickupCoin.mp3');
+  }, []);
 
   function toggleState() {
     if (started == true) {
@@ -103,7 +108,7 @@ function Home() {
           <>
             {operationId > parseInt(sequence, 10) - 1 ? (toggleState()) : (
               <>
-                <Operation key={operationId} onCorrect={changeId} digitsA={parseInt(digitsA, 10)} digitsB={parseInt(digitsB, 10)} sign={sign} audio={audio} />
+                <Operation key={operationId} onCorrect={changeId} digitsA={parseInt(digitsA, 10)} digitsB={parseInt(digitsB, 10)} sign={sign} audio={audioRef} />
                 <Timer key={timerId} />
                 <Button onClick={toggleState} text="Stop" color="bg-red-500 hover:bg-red-700" />
               </>

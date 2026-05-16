@@ -5,7 +5,7 @@ type OperationProps = {
   digitsA: number,
   digitsB: number,
   sign: string,
-  audio: HTMLAudioElement
+  audio: React.RefObject<HTMLAudioElement | null>
 }
 
 function randomize(digits: number) {
@@ -52,7 +52,7 @@ export default function Operation({
     const time = (endTime - startTime) / 1000;
 
     if (parseInt(value) === result) {
-      audio.play().catch(() => { })
+      audio.current?.play();
       onCorrect(time, a, b, result);
     }
   };
