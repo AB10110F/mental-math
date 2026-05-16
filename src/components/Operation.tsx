@@ -4,7 +4,8 @@ type OperationProps = {
   onCorrect: (time: number, a: number, b: number, result: number) => void;
   digitsA: number,
   digitsB: number,
-  sign: string
+  sign: string,
+  audio: HTMLAudioElement
 }
 
 function randomize(digits: number) {
@@ -32,7 +33,8 @@ export default function Operation({
   onCorrect,
   digitsA,
   digitsB,
-  sign }: OperationProps) {
+  sign,
+  audio }: OperationProps) {
 
   let a: number;
   let b: number;
@@ -50,6 +52,7 @@ export default function Operation({
     const time = (endTime - startTime) / 1000;
 
     if (parseInt(value) === result) {
+      audio.play().catch(() => { })
       onCorrect(time, a, b, result);
     }
   };

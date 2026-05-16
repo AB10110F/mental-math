@@ -16,6 +16,9 @@ type results = {
   result: number
 }
 
+const audio = new Audio('/sounds/pickupCoin.mp3');
+audio.preload = 'auto';
+
 function Home() {
 
   //TODO: Support advanced operations
@@ -100,7 +103,7 @@ function Home() {
           <>
             {operationId > parseInt(sequence, 10) - 1 ? (toggleState()) : (
               <>
-                <Operation key={operationId} onCorrect={changeId} digitsA={parseInt(digitsA, 10)} digitsB={parseInt(digitsB, 10)} sign={sign} />
+                <Operation key={operationId} onCorrect={changeId} digitsA={parseInt(digitsA, 10)} digitsB={parseInt(digitsB, 10)} sign={sign} audio={audio} />
                 <Timer key={timerId} />
                 <Button onClick={toggleState} text="Stop" color="bg-red-500 hover:bg-red-700" />
               </>
