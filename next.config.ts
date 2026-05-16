@@ -3,6 +3,7 @@
  */
 const nextConfig = {
   output: 'export',
+  basePath: '/mental-math',
   reactStrictMode: true,
 }
 
